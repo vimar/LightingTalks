@@ -1,1 +1,1 @@
-# LightingTalks
+# LightningTalks
