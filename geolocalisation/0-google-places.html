@@ -17,23 +17,34 @@
     <script>
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -33.866, lng: 151.196},
+    center: {lat: 48.91075, lng: 2.288933},
     zoom: 15
   });
+
+  var bikeLayer = new google.maps.BicyclingLayer();
+  bikeLayer.setMap(map);
 
   var infowindow = new google.maps.InfoWindow();
   var service = new google.maps.places.PlacesService(map);
 
   service.getDetails({
-    placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'
+    placeId: 'ChIJu0x-gYdv5kcRPQwu0O2YhMg'
   }, function(place, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
+      console.log(place);
+        img_src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference="+ place.photos[0].photo_reference +"&key=AIzaSyAYlUeadxzYJ2IqRDGF75RwyOEX36H_qOU";
+        console.log(img_src);
       var marker = new google.maps.Marker({
         map: map,
         position: place.geometry.location
       });
       google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent(place.name);
+        infowindow.setContent(
+          "<p>"+place.name+"</p>"
+          +"<p>"+place.adr_address+"</p>"
+          +"<p>"+place.international_phone_number+"</p>"
+          +"<p>"+place.reviews.length + " avis</p>"
+          +"<p><a target='_blank' href='"+place.url+"'>page Google</a></p>");
         infowindow.open(map, this);
       });
     }
